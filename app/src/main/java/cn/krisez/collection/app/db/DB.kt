@@ -4,7 +4,7 @@ import androidx.room.Room
 import cn.krisez.collection.app.App
 
 object DB {
-    var db: AppDatabase? = null
+    private var db: AppDatabase? = null
 
     @get:Synchronized
     val getDB: AppDatabase?

@@ -10,8 +10,11 @@ interface CollectionDao {
     fun insertItem(vararg items: CollectionItem)
 
     @Query("select * from collection")
-    fun queryAll(): List<CollectionItem>
+    suspend fun queryAll(): List<CollectionItem>
 
     @Delete
-    fun delete(vararg items:CollectionItem)
+    fun delete(vararg items: CollectionItem)
+
+    @Update
+    fun updateItems(vararg items: CollectionItem)
 }

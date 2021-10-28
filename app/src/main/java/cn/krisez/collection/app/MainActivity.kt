@@ -2,15 +2,26 @@ package cn.krisez.collection.app
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.OnLifecycleEvent
+import androidx.recyclerview.widget.LinearLayoutManager
+import cn.krisez.collection.app.adapter.CollectionAdapter
 import cn.krisez.collection.app.databinding.ActivityMainBinding
+import cn.krisez.collection.app.model.RoomModel
+import cn.krisez.collection.app.utils.viewModels
+import com.alibaba.fastjson.JSON
 import com.google.android.material.snackbar.Snackbar
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+    private val mAdapter = CollectionAdapter()
+    private val model: RoomModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,6 +34,20 @@ class MainActivity : AppCompatActivity() {
         binding.fab.setOnClickListener {
             startActivity(Intent(this, EditActivity::class.java))
         }
+
+        binding.recyclerView.layoutManager =
+            LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        binding.recyclerView.adapter = mAdapter
+        model.data.observe(this) { list ->
+            Log.d("MainActivity", "onCreate: ${JSON.toJSON(list)}")
+            mAdapter.setNewInstance(list)
+        }
+        lifecycle.addObserver(object : LifecycleObserver {
+            @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
+            fun load() {
+                model.load()
+            }
+        })
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

@@ -31,4 +31,12 @@ class RoomModel : ViewModel() {
             }
         }
     }
+
+    fun delete(item: CollectionItem) {
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                DB.getDB?.dao()?.delete(item)
+            }
+        }
+    }
 }

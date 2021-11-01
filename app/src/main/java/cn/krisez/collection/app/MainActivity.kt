@@ -1,10 +1,13 @@
 package cn.krisez.collection.app
 
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
@@ -13,9 +16,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import cn.krisez.collection.app.adapter.CollectionAdapter
 import cn.krisez.collection.app.databinding.ActivityMainBinding
 import cn.krisez.collection.app.model.RoomModel
+import cn.krisez.collection.app.utils.toast
 import cn.krisez.collection.app.utils.viewModels
 import com.alibaba.fastjson.JSON
-import com.google.android.material.snackbar.Snackbar
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -38,6 +42,37 @@ class MainActivity : AppCompatActivity() {
         binding.recyclerView.layoutManager =
             LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         binding.recyclerView.adapter = mAdapter
+        mAdapter.setOnItemChildClickListener { _, view, position ->
+            if (view.id == R.id.item_iv_copy) {
+                val copy = "${mAdapter.getItem(position).name}\n${mAdapter.getItem(position).link}"
+                //获取剪贴板管理器：
+                val cm: ClipboardManager = getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
+                // 创建普通字符型ClipData
+                val mClipData = ClipData.newPlainText(copy, copy)
+                // 将ClipData内容放到系统剪贴板里。
+                cm.setPrimaryClip(mClipData)
+                toast("已复制")
+            } else if (view.id == R.id.item_iv_delete) {
+                AlertDialog.Builder(this).setMessage("确定删除？")
+                    .setPositiveButton("取消") { dialog, _ ->
+                        dialog.dismiss()
+                    }
+                    .setNegativeButton("确定") { dialog, _ ->
+                        model.delete(mAdapter.getItem(position))
+                        mAdapter.removeAt(position)
+                        dialog.dismiss()
+                    }
+                    .show()
+            }
+        }
+        mAdapter.setOnItemClickListener { _, _, position ->
+            startActivity(
+                Intent(this, EditActivity::class.java).putExtra(
+                    "entity",
+                    mAdapter.getItem(position)
+                )
+            )
+        }
         model.data.observe(this) { list ->
             Log.d("MainActivity", "onCreate: ${JSON.toJSON(list)}")
             mAdapter.setNewInstance(list)
@@ -61,7 +96,7 @@ class MainActivity : AppCompatActivity() {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         return when (item.itemId) {
-            R.id.action_settings -> true
+            R.id.action_search -> true
             else -> super.onOptionsItemSelected(item)
         }
     }

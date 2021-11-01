@@ -1,5 +1,7 @@
 package cn.krisez.collection.app.utils
 
+import android.content.Context
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.annotation.MainThread
 import androidx.lifecycle.ViewModel
@@ -15,4 +17,8 @@ public inline fun <reified VM : ViewModel> ComponentActivity.viewModels(
     }
 
     return ViewModelLazy(VM::class, { viewModelStore }, factoryPromise)
+}
+
+fun Context.toast(msg: String) {
+    Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
 }

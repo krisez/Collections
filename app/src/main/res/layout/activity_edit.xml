@@ -54,7 +54,7 @@
         android:id="@+id/et_storage_space"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:imeOptions="actionNext"
+        android:imeOptions="actionDone"
         android:inputType="text"
         android:lines="1"
         android:maxLines="1" />
@@ -69,4 +69,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/save" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:background="@drawable/bg_white_rect"
+        android:gravity="start|top"
+        android:hint="在这里粘贴内容，自动识别"
+        android:imeOptions="actionDone"
+        android:lines="5"
+        android:padding="8dp" />
 </LinearLayout>

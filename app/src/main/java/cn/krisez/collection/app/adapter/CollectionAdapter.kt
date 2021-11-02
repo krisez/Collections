@@ -12,7 +12,7 @@ class CollectionAdapter :
     }
 
     override fun convert(holder: BaseViewHolder, item: CollectionItem) {
-        holder.setText(R.id.item_tv_name, if (item.name.isNullOrEmpty()) "--" else item.size)
+        holder.setText(R.id.item_tv_name, if (item.name.isNullOrEmpty()) "--" else item.name)
         holder.setText(R.id.item_tv_space, if (item.size.isNullOrEmpty()) "--" else item.size)
         holder.setText(R.id.item_tv_link, item.link)
         holder.setText(R.id.item_tv_time, context.getString(R.string.modify_time, item.updateTime))

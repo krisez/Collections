@@ -1,6 +1,8 @@
 package cn.krisez.collection.app
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import androidx.appcompat.app.AppCompatActivity
 import cn.krisez.collection.app.databinding.ActivityEditBinding
 import cn.krisez.collection.app.entity.CollectionItem
@@ -28,12 +30,55 @@ class EditActivity : AppCompatActivity() {
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         binding.toolbar.setNavigationOnClickListener { finish() }
+        binding.etRec.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                val content = s.toString()
+                if (content.isEmpty()) {
+                    return
+                }
+                val index = when {
+                    content.contains("magnet", true) -> {
+                        content.indexOf("magnet", ignoreCase = true)
+                    }
+                    content.contains("http") -> {
+                        content.indexOf("http", ignoreCase = true)
+                    }
+                    else -> -1
+                }
+                if (index == -1) {
+                    binding.etName.setText(content)
+                    return
+                }
+                val space = content.indexOf(" ", index)
+                if (space == -1) {
+                    binding.etLink.setText(content.substring(index))
+                    if (index > 0) {
+                        binding.etName.setText(content.substring(0, index))
+                    }
+                } else {
+                    binding.etLink.setText(content.substring(index, space))
+                    if (index > 0) {
+                        binding.etName.setText(content.substring(0, index))
+                    } else {
+                        binding.etName.setText(content.substring(space+1))
+                    }
+                }
+            }
+        })
         binding.save.setOnClickListener {
             if (binding.etLink.text.isEmpty()) {
                 toast("链接不能为空")
                 return@setOnClickListener
             }
             model.insert(
+                this,
                 CollectionItem(
                     id, binding.etName.text.toString(),
                     binding.etLink.text.toString(),
@@ -41,7 +86,11 @@ class EditActivity : AppCompatActivity() {
                     TimeUtil.now
                 )
             )
-            finish()
+        }
+        model.close.observe(this) {
+            if (it) {
+                finish()
+            }
         }
     }
 }

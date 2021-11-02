@@ -9,12 +9,12 @@ interface CollectionDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertItem(vararg items: CollectionItem)
 
-    @Query("select * from collection")
+    @Query("select * from collection order by updateTime desc")
     suspend fun queryAll(): List<CollectionItem>
 
     @Delete
     fun delete(vararg items: CollectionItem)
 
-    @Update
-    fun updateItems(vararg items: CollectionItem)
+    @Query("select * from collection where link=:link")
+    fun getItem(link: String?):CollectionItem?
 }

@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import cn.krisez.collection.app.adapter.CollectionAdapter
 import cn.krisez.collection.app.databinding.ActivityMainBinding
@@ -41,6 +42,12 @@ class MainActivity : AppCompatActivity() {
 
         binding.recyclerView.layoutManager =
             LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        binding.recyclerView.addItemDecoration(
+            DividerItemDecoration(
+                this,
+                DividerItemDecoration.VERTICAL
+            )
+        )
         binding.recyclerView.adapter = mAdapter
         mAdapter.setOnItemChildClickListener { _, view, position ->
             if (view.id == R.id.item_iv_copy) {

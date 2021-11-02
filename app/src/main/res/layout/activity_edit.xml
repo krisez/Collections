@@ -34,10 +34,10 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="链接" />
+        android:text="大小" />
 
     <EditText
-        android:id="@+id/et_link"
+        android:id="@+id/et_storage_space"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:imeOptions="actionNext"
@@ -48,16 +48,14 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="大小" />
+        android:text="链接" />
 
     <EditText
-        android:id="@+id/et_storage_space"
+        android:id="@+id/et_link"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:imeOptions="actionDone"
-        android:inputType="text"
-        android:lines="1"
-        android:maxLines="1" />
+        android:maxLines="5" />
+
 
     <TextView
         android:id="@+id/tv_time"
@@ -71,6 +69,7 @@
         android:text="@string/save" />
 
     <EditText
+        android:id="@+id/et_rec"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"

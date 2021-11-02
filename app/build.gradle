@@ -23,10 +23,26 @@ android {
         }
     }
 
+    signingConfigs {
+        release {
+            storeFile file("collection.jks")
+            storePassword "f4632580"
+            keyAlias "collection"
+            keyPassword "f4632580"
+            v2SigningEnabled true
+        }
+    }
+
     buildTypes {
+        debug{
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
     compileOptions {

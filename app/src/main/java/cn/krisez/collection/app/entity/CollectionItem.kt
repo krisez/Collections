@@ -4,9 +4,10 @@ import android.os.Parcel
 import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.Index
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "collection")
+@Entity(tableName = "collection",indices = [Index(value = ["link"],unique = true)])
 data class CollectionItem(
     @PrimaryKey(autoGenerate = true)
     var id: Int? = null,

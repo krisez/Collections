@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "a057fedef1051e69bd7fc382906c023f",
+    "identityHash": "94e24f96d5127f7b0cc51db84af24815",
     "entities": [
       {
         "tableName": "collection",
@@ -45,14 +45,23 @@
           ],
           "autoGenerate": true
         },
-        "indices": [],
+        "indices": [
+          {
+            "name": "index_collection_link",
+            "unique": true,
+            "columnNames": [
+              "link"
+            ],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_collection_link` ON `${TABLE_NAME}` (`link`)"
+          }
+        ],
         "foreignKeys": []
       }
     ],
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'a057fedef1051e69bd7fc382906c023f')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '94e24f96d5127f7b0cc51db84af24815')"
     ]
   }
 }

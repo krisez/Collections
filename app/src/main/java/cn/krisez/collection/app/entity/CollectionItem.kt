@@ -6,8 +6,9 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
+import com.alibaba.fastjson.JSON
 
-@Entity(tableName = "collection",indices = [Index(value = ["link"],unique = true)])
+@Entity(tableName = "collection", indices = [Index(value = ["link"], unique = true)])
 data class CollectionItem(
     @PrimaryKey(autoGenerate = true)
     var id: Int? = null,
@@ -19,7 +20,7 @@ data class CollectionItem(
     var size: String? = null,
     @ColumnInfo
     var updateTime: String? = null,
-):Parcelable{
+) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readValue(Int::class.java.classLoader) as? Int,
         parcel.readString(),
@@ -41,6 +42,8 @@ data class CollectionItem(
         return 0
     }
 
+    override fun toString(): String = JSON.toJSONString(this)
+
     companion object CREATOR : Parcelable.Creator<CollectionItem> {
         override fun createFromParcel(parcel: Parcel): CollectionItem {
             return CollectionItem(parcel)
@@ -50,5 +53,6 @@ data class CollectionItem(
             return arrayOfNulls(size)
         }
     }
+
 
 }

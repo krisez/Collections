@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import cn.krisez.collection.app.adapter.CollectionAdapter
 import cn.krisez.collection.app.databinding.ActivityMainBinding
+import cn.krisez.collection.app.dialog.EditDialog
 import cn.krisez.collection.app.model.RoomModel
 import cn.krisez.collection.app.utils.toast
 import cn.krisez.collection.app.utils.viewModels
@@ -81,13 +82,14 @@ class MainActivity : AppCompatActivity() {
             )
         }
         model.data.observe(this) { list ->
-            Log.d("MainActivity", "onCreate: ${JSON.toJSON(list)}")
             mAdapter.setNewInstance(list)
         }
         lifecycle.addObserver(object : LifecycleObserver {
             @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
             fun load() {
-                model.load()
+                if(!model.isQuery()){
+                    model.load()
+                }
             }
         })
     }
@@ -103,7 +105,20 @@ class MainActivity : AppCompatActivity() {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         return when (item.itemId) {
-            R.id.action_search -> true
+            R.id.action_search -> {
+                EditDialog(this) {
+                    if (it.isNotEmpty()) {
+                        model.query(it)
+                    }else{
+                        toast("搜索内容为空")
+                    }
+                }.show()
+                true
+            }
+            R.id.action_reset -> {
+                model.load()
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
     }

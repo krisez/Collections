@@ -14,6 +14,9 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class RoomModel : ViewModel() {
+    private var isQuery = false
+    fun isQuery(): Boolean = isQuery
+
     val data = MutableLiveData<MutableList<CollectionItem>>()
     val close by lazy {
         MutableLiveData<Boolean>()
@@ -21,6 +24,7 @@ class RoomModel : ViewModel() {
 
     fun load() {
         viewModelScope.launch(Dispatchers.Main) {
+            isQuery = false
             data.value = withContext(Dispatchers.IO) {
                 DB.getDB?.dao()?.queryAll()
             }?.toMutableList()
@@ -35,7 +39,7 @@ class RoomModel : ViewModel() {
             if (q == null || item.id != null) {
                 insertItems(item)
             } else {
-                AlertDialog.Builder(context).setMessage("已保存有该条链接，确定修改数据？")
+                AlertDialog.Builder(context).setMessage("已保存有该条链接，确定修改数据？\n$q")
                     .setPositiveButton("取消") { dialog, _ -> dialog.dismiss() }
                     .setNegativeButton("确定") { dialog, _ ->
                         dialog.dismiss()
@@ -60,6 +64,15 @@ class RoomModel : ViewModel() {
             withContext(Dispatchers.IO) {
                 DB.getDB?.dao()?.delete(item)
             }
+        }
+    }
+
+    fun query(search: String) {
+        viewModelScope.launch {
+            isQuery = true
+            data.value = withContext(Dispatchers.IO) {
+                DB.getDB?.dao()?.query(search)
+            }?.toMutableList()
         }
     }
 }

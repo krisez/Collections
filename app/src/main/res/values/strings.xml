@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">收藏夹</string>
     <string name="action_search">搜索</string>
+    <string name="action_reset">重置</string>
     <string name="save">保存</string>
     <string name="modify_time">更新时间：%s</string>
 </resources>

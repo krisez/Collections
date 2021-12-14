@@ -39,7 +39,7 @@ class RoomModel : ViewModel() {
             if (q == null || item.id != null) {
                 insertItems(item)
             } else {
-                AlertDialog.Builder(context).setMessage("已保存有该条链接，确定修改数据？\n$q")
+                AlertDialog.Builder(context).setMessage("已保存有该条链接，确定修改数据？\n也可能新插入。\n$q")
                     .setPositiveButton("取消") { dialog, _ -> dialog.dismiss() }
                     .setNegativeButton("确定") { dialog, _ ->
                         dialog.dismiss()

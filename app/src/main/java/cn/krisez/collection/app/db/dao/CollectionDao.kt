@@ -15,7 +15,7 @@ interface CollectionDao {
     @Delete
     fun delete(vararg items: CollectionItem)
 
-    @Query("select * from collection where link=:link")
+    @Query("select * from collection where upper(link)=upper(:link)")
     fun getItem(link: String?): CollectionItem?
 
     @Query("select * from collection where link like '%'||:search||'%' or name like '%'||:search||'%'")

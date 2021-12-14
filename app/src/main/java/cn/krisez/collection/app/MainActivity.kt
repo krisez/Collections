@@ -4,7 +4,6 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AlertDialog
@@ -20,7 +19,6 @@ import cn.krisez.collection.app.dialog.EditDialog
 import cn.krisez.collection.app.model.RoomModel
 import cn.krisez.collection.app.utils.toast
 import cn.krisez.collection.app.utils.viewModels
-import com.alibaba.fastjson.JSON
 
 
 class MainActivity : AppCompatActivity() {

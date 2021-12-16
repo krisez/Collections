@@ -17,4 +17,11 @@
         android:icon="@android:drawable/ic_menu_close_clear_cancel"
         android:iconTint="@color/black"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/action_batch"
+        android:orderInCategory="100"
+        android:title="@string/action_batch"
+        android:icon="@android:drawable/ic_menu_close_clear_cancel"
+        android:iconTint="@color/black"
+        app:showAsAction="never" />
 </menu>

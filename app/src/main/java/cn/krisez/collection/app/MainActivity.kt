@@ -81,11 +81,12 @@ class MainActivity : AppCompatActivity() {
         }
         model.data.observe(this) { list ->
             mAdapter.setNewInstance(list)
+            supportActionBar?.title = "收藏(${list.size})"
         }
         lifecycle.addObserver(object : LifecycleObserver {
             @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
             fun load() {
-                if(!model.isQuery()){
+                if (!model.isQuery()) {
                     model.load()
                 }
             }
@@ -107,7 +108,7 @@ class MainActivity : AppCompatActivity() {
                 EditDialog(this) {
                     if (it.isNotEmpty()) {
                         model.query(it)
-                    }else{
+                    } else {
                         toast("搜索内容为空")
                     }
                 }.show()
@@ -115,6 +116,10 @@ class MainActivity : AppCompatActivity() {
             }
             R.id.action_reset -> {
                 model.load()
+                true
+            }
+            R.id.action_batch -> {
+                startActivity(Intent(this, BatchActivity::class.java))
                 true
             }
             else -> super.onOptionsItemSelected(item)
